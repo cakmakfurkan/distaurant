@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { StyleSheet, FlatList } from 'react-native'
 import CategoryCard from './CategoryCard';
+import {responsiveScreenHeight, responsiveScreenWidth} from "react-native-responsive-dimensions";
 
 
 const Item = ({ imageURL, category, onPress }) => (
@@ -31,7 +32,7 @@ const CategoriesSlider = props => {
 const styles = StyleSheet.create({
     categoriesView: {
         width: '100%',
-        maxHeight: '15%',
+        maxHeight: responsiveScreenHeight(17),
         backgroundColor: 'white',
         paddingTop:10
     }

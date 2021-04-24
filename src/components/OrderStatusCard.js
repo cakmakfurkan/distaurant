@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Image, Text } from 'react-native'
+import { StyleSheet, View, Image, Text } from 'react-native';
+import {responsiveScreenHeight, responsiveScreenWidth} from "react-native-responsive-dimensions";
+
 const OrderStatusCard = props => {
 
     OrderStatusCard.propTypes = {
@@ -55,9 +57,8 @@ const OrderStatusCard = props => {
 const styles = StyleSheet.create({
     cardView: {
         width: '95%',
-        height: '20%',
+        height: responsiveScreenHeight(20),
         backgroundColor: '#FFBF00',
-        margin:10,
         alignSelf: 'center',
         borderRadius: 10,
         flexDirection: 'row',
