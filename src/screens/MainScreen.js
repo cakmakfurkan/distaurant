@@ -1,96 +1,107 @@
 import React, { Component } from 'react'
-import { Text, View , TouchableOpacity, StyleSheet, ScrollView} from 'react-native'
+import { Text, View, StyleSheet, ScrollView} from 'react-native'
 import { firebase } from '../firebase/config'
 import CategoriesSlider from '../components/CategoriesSlider'
 import OrderStatusCard from '../components/OrderStatusCard'
-import FloatingActionBar from 'react-native-floating-action-bar';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FloatingActionBar from 'react-native-floating-action-bar'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Header from '../components/Header'
-import FoodCard from '../components/FoodCard'
 import FoodList from '../components/FoodList'
+import AppState from '../AppState'
+import { observer } from 'mobx-react'
+import Toast from 'react-native-toast-message'
+import { LogBox } from 'react-native'
+LogBox.ignoreLogs(['Warning: Overriding']); // Ignore log notification by message
 
-
-const itemArray = [
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', category: 'burger', onPress: () => { console.log( 'aaa' )}},
-];
-
-const foodArray = [
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-    {imageURL: 'https://firebasestorage.googleapis.com/v0/b/distaurant-fba6e.appspot.com/o/food_categories%2Fburgers.jpeg?alt=media&token=e7304aee-e04d-4217-9354-cb88a0e842ca', header: 'Big King', info: '2 x 120 gr. dana burger köftesi, pastırma, mantar, graten sos, cheddar peyniri. Patates kızartması ile', price: 15, onDetailPress: ()=>{}, onAddPrice: ()=>{}},
-]
+@observer
 export class MainScreen extends Component {
 
     constructor(props){
         super(props);
         this.state={
-            image: null
+            categoryList: [],
+            foodList: []
         }
     }
-    componentDidMount(){
-        /*firebase.database()
-            .ref('/users/-MZ2P6CSgrDljJR9SJCr')
-            .on('value', snapshot => {
-              console.log('User data: ', snapshot.val());
-            });
 
-        let imageRef = firebase.storage().ref('/food_categories/' + 'burgers.jpeg');
-        imageRef
-          .getDownloadURL()
-          .then((url) => {
-            //from url you can fetched the uploaded image easily
-            this.setState({
-                image: url
-            })
-          })
-          .catch((e) => console.log('getting downloadURL of image error => ', e));*/
-    }
-    addUser(){
-        firebase.database()
-        .ref('users/')
-        .push({
-            name: 'furkan',
-            age: 32,
+    setCategoryList = (categoryList) => {
+        this.setState({
+            categoryList: categoryList
         })
-        .then((snapshot) => console.log(snapshot))
-        .catch((err)=>{ console.log(err)});
-        console.log("aaa");
     }
+    setFoodList = (foodList) => {
+        this.setState({
+            foodList: foodList
+        })
+    }
+
+    componentDidMount(){
+        this.getCategories();
+        this.watchOrderStatus();
+    }
+
+    getCategories = () => {
+        firebase.database()
+            .ref('/Categories')
+            .on('value', snapshot => {
+                categoryList = [];
+                let categories = snapshot.val();
+                //console.log('categories data: ', snapshot.val());
+                if(Object.keys(categories).length > 0){
+                    let tempList = [];
+                    Object.entries(categories).forEach(([key, value]) => {
+                        tempList.push({imageName: value.imageName, category: value.categoryName, onPress: () => { this.getFoods(key)} });
+                    });
+                    this.setCategoryList(tempList);
+                    this.getFoods(Object.keys(categories)[0]);
+                }
+            })
+    }
+
+    getFoods = (categoryID) => {
+        firebase.database()
+            .ref("Foods").orderByChild("categoryId").equalTo(categoryID)
+            .once('value', snapshot => {
+                let tempList = [];
+                //console.log('food data: ', snapshot.val());
+
+                Object.entries(snapshot.val()).forEach(([key, value]) => {
+                    tempList.push({imageName: value.imageName, header: value.foodName, info: value.description, price: parseFloat(value.price), onDetailPress: ()=>{}, onAddPress: ()=>{ 
+                        AppState.addItem(key, value.foodName, parseFloat(value.price), parseInt(value.estimatedTime));
+                        Toast.show({
+                          text2: 'Sepete eklendi 🎉',
+                          visibilityTime: 500,
+                        });
+                    }})
+                })
+                this.setFoodList(tempList);
+            })
+    }
+
+    watchOrderStatus = () => {
+        if(AppState.order.orderID){
+            firebase.database()
+                .ref('Orders/' + AppState.order.orderID)
+                .on('value')
+                .then(snapshot => {
+                    AppState.updateOrderStatus(snapshot.val().status);
+                })
+                .catch(err => console.log(err))
+        }
+    }
+
     render() {
+        let {categoryList, foodList} = this.state;
         return (
             <View style = {{flex:1}}>
                 <Header/>
                 <ScrollView>
                     <Text style={styles.headerText}>Sipariş Durumu:</Text>
-                    <OrderStatusCard status={'prepearing'}/>
+                    <OrderStatusCard status={AppState.order.status}/>
                     <Text style={styles.headerText}>Kategoriler:</Text>
-                    <CategoriesSlider childrens={itemArray}/>
+                    <CategoriesSlider childrens={categoryList}/>
                     <Text style={styles.headerText}>Yemekler:</Text>
-                    <FoodList childrens={foodArray}/>
+                    <FoodList childrens={foodList}/>
                 </ScrollView>
                 <FloatingActionBar
                     items={[{icon: ({active}) => (
@@ -100,9 +111,13 @@ export class MainScreen extends Component {
                           color={active ? 'rgb(3, 137, 253)' : 'rgb(130, 130, 130)'}
                         />
                       )}, {icon: 'shopping-cart'}]}
-                    onPress={()=> {}}
+                    onPress={(index) => {
+                        if(index == 1)
+                            this.props.navigation.navigate('Basket');
+                    }}
                     offset={10}
                 />
+                <Toast ref={(ref) => Toast.setRef(ref)} />
             </View>
         )
     }

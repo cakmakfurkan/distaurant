@@ -1,16 +1,39 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
+import { firebase } from '../firebase/config'
 
 const CategoryCard = props => {
+    const [image, setImage] = useState(null);
+
     CategoryCard.propTypes = {
-        imageURL: PropTypes.string,
+        imageName: PropTypes.string,
         category: PropTypes.string,
         onPress: PropTypes.func 
     }
+
+    const isMountedComponent = useRef(true);   
+    useEffect(() => {     
+        if (isMountedComponent.current){
+            getImage();
+        }     
+        return () => { isMountedComponent.current = false; };   
+    });
+
+    getImage = () => {
+        let imageRef = firebase.storage().ref('/food_categories/' + props.imageName);
+        imageRef
+          .getDownloadURL()
+          .then((url) => {
+            //from url you can fetched the uploaded image easily
+            setImage(url);
+          })
+          .catch((e) => console.log('getting downloadURL of image error => ', e));
+    }
+
     return (
         <TouchableOpacity style={styles.card} onPress={props.onPress}>
-            <ImageBackground source={{ uri : props.imageURL}}   imageStyle={{ borderRadius: 10}} style={styles.cardImage}>
+            <ImageBackground source={{ uri : image}}   imageStyle={{ borderRadius: 10}} style={styles.cardImage}>
                 <View style={styles.imageTint}>
                     <Text style={styles.cardHeader}>{props.category}</Text>
                 </View>

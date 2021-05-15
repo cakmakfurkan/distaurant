@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { StyleSheet, FlatList, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import FoodCard from './FoodCard';
 
 
-const Item = ({ imageURL, header, info, price, onDetailPress, onAddPress }) => (
-    <FoodCard imageURL={imageURL} header={header} info={info} price={price} onDetailPress={onDetailPress} onAddPress={onAddPress} />
+const Item = ({ imageName, header, info, price, onDetailPress, onAddPress }) => (
+    <FoodCard imageName={imageName} header={header} info={info} price={price} onDetailPress={onDetailPress} onAddPress={onAddPress} />
 );
 
 const FoodList = props => {
@@ -18,7 +18,7 @@ const FoodList = props => {
         <View style={{marginBottom:60}}>
             {props.childrens.map((item) => {
                 return(
-                    <Item imageURL={item.imageURL} header={item.header} info={item.info} price={item.price} onDetailPress={item.onDetailPress} onAddPress={item.onAddPress} />
+                    <Item key={item.header} imageName={item.imageName} header={item.header} info={item.info} price={item.price} onDetailPress={item.onDetailPress} onAddPress={item.onAddPress} />
                 )
             })}
         </View>

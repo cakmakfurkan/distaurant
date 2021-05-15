@@ -3,13 +3,15 @@ import {createSwitchNavigator} from 'react-navigation';
 import MainScreen from './screens/MainScreen';
 import ScanScreen from './screens/ScanScreen';
 import GreetingsScreen from './screens/GreetingsScreen';
+import ShoppingBasketScreen from './screens/ShoppingBasketScreen';
 
 const AppNavigator = createSwitchNavigator({
     ScanScreen: ScanScreen,
     Main: MainScreen,
-    Greetings: GreetingsScreen
+    Greetings: GreetingsScreen,
+    Basket: ShoppingBasketScreen
 }, {
-    initialRouteName: 'Greetings'
+    initialRouteName: 'Main'
 });
 
 export default createAppContainer(AppNavigator);

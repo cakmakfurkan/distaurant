@@ -5,8 +5,8 @@ import CategoryCard from './CategoryCard';
 import {responsiveScreenHeight, responsiveScreenWidth} from "react-native-responsive-dimensions";
 
 
-const Item = ({ imageURL, category, onPress }) => (
-    <CategoryCard imageURL={imageURL} category={category} onPress={onPress} />
+const Item = ({ imageName, category, onPress }) => (
+    <CategoryCard imageName={imageName} category={category} onPress={onPress} />
 );
 
 const CategoriesSlider = props => {
@@ -15,7 +15,7 @@ const CategoriesSlider = props => {
         childrens: PropTypes.array
     }
     const renderItem = ({ item }) => (
-        <Item imageURL={item.imageURL} category={item.category} onPress={item.onPress} />
+        <Item imageName={item.imageName} category={item.category} onPress={item.onPress} />
     );
     return(
         <FlatList
